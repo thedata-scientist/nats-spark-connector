@@ -28,12 +28,23 @@ import java.nio.file.{Files, Paths}
 import java.security.{KeyStore, SecureRandom}
 import javax.net.ssl.{KeyManagerFactory, SSLContext, TrustManagerFactory}
 
-object NatsConfigSource {
-  val config = new NatsConfig(true)
+// object NatsConfigSource {
+//   val config = new NatsConfig(true)
+// }
+
+// object NatsConfigSink {
+//   val config = new NatsConfig(false)
+// }
+
+class NatsConfigSource {
+
+  val config: NatsConfig = new NatsConfig(true)
 }
 
-object NatsConfigSink {
-  val config = new NatsConfig(false)
+class NatsConfigSink {
+
+  val config: NatsConfig = new NatsConfig(false)
+
 }
 
 class NatsConfig(isSource: Boolean) {
