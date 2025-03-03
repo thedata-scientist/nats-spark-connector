@@ -115,7 +115,8 @@ class NatsSubBatchMgr {
 
   private def convertBatch(in:List[Message]):List[NatsMsg] = {
     var buffer:ListBuffer[NatsMsg] = ListBuffer.empty[NatsMsg]
-    val df:DateTimeFormatter = DateTimeFormatter.ofPattern(NatsConfigSource.config.dateTimeFormat)
+    val sourceinstance = new NatsConfigSource()
+    val df:DateTimeFormatter = DateTimeFormatter.ofPattern(sourceinstance.config.dateTimeFormat)
 
    def getHeaders (msg:Message):Option[Map[String, List[String]]] = {
      if (msg.hasHeaders) {
