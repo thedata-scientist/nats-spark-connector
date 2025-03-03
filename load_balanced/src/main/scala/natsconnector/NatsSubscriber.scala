@@ -14,15 +14,23 @@ import java.util.ArrayList
 import scala.collection.JavaConverters.{collectionAsScalaIterableConverter, seqAsJavaListConverter}
 
 class NatsSubscriber() {
-  val subjects:String = NatsConfigSource.config.streamSubjects.get
+  // val subjects:String = NatsConfigSource.config.streamSubjects.get
+  val sourceinstance = new NatsConfigSource()
+  val subjects:String = sourceinstance.config.streamSubjects.get
   //val deliverySubject:String = NatsConfigSource.config.queueDeliverySubject
   //val queue:String = NatsConfigSource.config.queue
-  val js:JetStream = NatsConfigSource.config.js.get
-  val nc:Connection = NatsConfigSource.config.nc.get
-  val messageReceiveWaitTime:Duration = NatsConfigSource.config.messageReceiveWaitTime
-  val durable:Option[String] = NatsConfigSource.config.durable
-  val streamName = NatsConfigSource.config.streamName.get
-  val fetchBatchSize = NatsConfigSource.config.msgFetchBatchSize
+  // val js:JetStream = NatsConfigSource.config.js.get
+  // val nc:Connection = NatsConfigSource.config.nc.get
+  // val messageReceiveWaitTime:Duration = NatsConfigSource.config.messageReceiveWaitTime
+  // val durable:Option[String] = NatsConfigSource.config.durable
+  // val streamName = NatsConfigSource.config.streamName.get
+  // val fetchBatchSize = NatsConfigSource.config.msgFetchBatchSize
+  val js:JetStream = sourceinstance.config.js.get
+  val nc:Connection = sourceinstance.config.nc.get
+  val messageReceiveWaitTime:Duration = sourceinstance.config.messageReceiveWaitTime
+  val durable:Option[String] = sourceinstance.config.durable
+  val streamName = sourceinstance.config.streamName.get
+  val fetchBatchSize = sourceinstance.config.msgFetchBatchSize
 
   val jSub: JetStreamSubscription = {
     val subjectArray = this.subjects.replace(" ", "").split(",")
@@ -45,7 +53,8 @@ class NatsSubscriber() {
       js.subscribe(null, pso)
     } catch {
       case ex: IllegalStateException =>
-        if (NatsConfigSource.config.isLocal) {
+        // if (NatsConfigSource.config.isLocal) {
+        if (sourceinstance.config.isLocal) {
           val logger: Logger = NatsLogger.logger
           logger.error(s"Error subscribing to NATS stream ${this.streamName} ${this.durable} : ${ex.getMessage()}\n ${ex.printStackTrace()}")
         }
