@@ -43,7 +43,9 @@ class NatsStreamProvider extends DataSourceRegister
       "Source config parameters:\n"
         + s"${parameters}"
     )
-    NatsConfigSource.config.setConnection(parameters)
+    // NatsConfigSource.config.setConnection(parameters)
+    val sourceinstance = new NatsConfigSource()
+    sourceinstance.config.setConnection(parameters)
     val (_, ss) = sourceSchema(sqlContext, schema, providerName, parameters)
     val source = new NatsStreamingSource(sqlContext, metadataPath, Some(ss), parameters)
     source
@@ -57,7 +59,9 @@ class NatsStreamProvider extends DataSourceRegister
       "Sink config parameters:\n"
         + s"${parameters}"
     )
-    NatsConfigSink.config.setConnection(parameters)
+    // NatsConfigSink.config.setConnection(parameters)
+    val sinkinstance = new NatsConfigSink()
+    sinkinstance.config.setConnection(parameters)
     val sink = new NatsStreamingSink(sqlContext, parameters, partitionColumns, outputMode)
     sink
   }
