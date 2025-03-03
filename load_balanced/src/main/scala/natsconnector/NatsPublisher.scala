@@ -18,7 +18,9 @@ import org.apache.log4j.Logger
 
 class NatsPublisher {
   val isLocal = false
-  val nc:Connection = NatsConfigSink.config.nc.get
+  // val nc:Connection = NatsConfigSink.config.nc.get
+  val sinkinstance = new NatsConfigSink()
+  val nc:Connection = sinkinstance.config.nc.get
   // val js:JetStream = NatsConfigSink.config.js.get
   // val stream = NatsConfigSink.config.streamName.get
   
@@ -62,8 +64,10 @@ class NatsPublisher {
   }
 
   def flush():Unit = {
-    val nc:Connection = NatsConfigSink.config.nc.get
-    val duration:Duration = NatsConfigSink.config.flushWaitTime
+    // val nc:Connection = NatsConfigSink.config.nc.get
+    // val duration:Duration = NatsConfigSink.config.flushWaitTime
+    val nc:Connection = sinkinstance.config.nc.get
+    val duration:Duration = sinkinstance.config.flushWaitTime
     
     nc.flush(duration)
   }
