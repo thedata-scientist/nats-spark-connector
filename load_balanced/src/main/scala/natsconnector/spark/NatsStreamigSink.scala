@@ -25,7 +25,9 @@ class NatsStreamingSink(sqlContext: SQLContext,
                                  partitionColumns: Seq[String],
                                  outputMode: OutputMode)
   extends Sink {
-  val options = NatsConfigSink.config.options      
+  // val options = NatsConfigSink.config.options 
+  val sinkinstance = new NatsConfigSink()
+  val options = sinkinstance.config.options
   val con = Nats.connect(options.get)
   override def addBatch(batchId: Long, data: DataFrame):Unit = {
     // println("=====================In NatsStreamingSink.addBatch")
