@@ -104,12 +104,12 @@ class NatsStreamingSource(sqlContext: SQLContext,
             + s"${rowSeq.foreach(r => this.logger.debug("  "+r))}"
         )
 
-        // val df = this.sqlContext.sparkSession.internalCreateDataFrame(
-        //                             sqlContext.sparkSession.sparkContext.parallelize(rowSeq),
-        //                             this.schema, isStreaming = true)
-        val df = this.sqlContext.internalCreateDataFrame(
+        val df = this.sqlContext.sparkSession.internalCreateDataFrame(
                                     sqlContext.sparkSession.sparkContext.parallelize(rowSeq),
                                     this.schema, isStreaming = true)
+        // val df = this.sqlContext.internalCreateDataFrame(
+        //                             sqlContext.sparkSession.sparkContext.parallelize(rowSeq),
+        //                             this.schema, isStreaming = true)
 
         if (rowSeq.length != 0) {
             this.lastDeliveredBatchTimestamp = ZonedDateTime.now()
